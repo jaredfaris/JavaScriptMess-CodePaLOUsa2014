@@ -1,0 +1,104 @@
+﻿@model IEnumerable<receivingAppDotNet.Models.Part>
+
+@{
+    ViewBag.Section = "Parts";
+    ViewBag.Title = "Parts";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div id="currentParts">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Weight)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Weight)
+                </td>
+                <td>
+                    
+                    @using (Html.BeginForm("Delete", "Part"))
+                    {
+                        <input type="hidden" name="id" value="@item.Id"/>
+                        <a class="deletePartLink" href="#">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>   
+</div>
+
+
+<p>
+    <a id="toggleDiscontinuedParts" href="#" onclick="toggleDiscontinuedParts()">Show Discontinued Parts</a>
+</p>
+
+<div id="discontinuedParts">
+    
+</div>
+
+<div style="display: none;">
+    <div id="dialog-confirm" title="Delete this item?">
+        <p>Delete this item?</p>
+    </div>    
+</div>
+
+<script>
+
+    window.toggleDiscontinuedParts = function() {
+        var isShowing = $('#toggleDiscontinuedParts').hasClass('expanded');
+
+        if (!isShowing) {
+            // show the parts
+            $('#toggleDiscontinuedParts').text('Hide Discontinued Parts').addClass('expanded');
+            $('#discontinuedParts').load("@Url.Action("DiscontinuedParts")");
+        } else {
+            // hide the parts
+            $('#toggleDiscontinuedParts').text('Show Discontinued Parts').removeClass('expanded');
+            $('#discontinuedParts').html('');
+        }
+    };
+
+    // javascript called via an event
+    $('.deletePartLink').on('click', function (){
+
+        // demo - show them what 'this' means here
+
+        var form = $(this).parents('form');
+
+        $("#dialog-confirm").dialog({
+            resizable: false,
+            height: 200,
+            modal: true,
+            buttons: {
+                "Delete this item?": function () {
+                    $(this).dialog("close");
+                    form.submit();
+                },
+                Cancel: function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        return false;
+    });
+</script>
