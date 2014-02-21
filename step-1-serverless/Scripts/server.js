@@ -97,7 +97,9 @@
     };
 
     if (parts.get() == undefined || parts.get().length == 0  || vendors.get() == undefined || vendors.get().length == 0) {
-        alert("Resetting the data because an array is empty or you can't use localStorage!")
+        $(document).ready(function() {
+            $('body').prepend("<h3 style=\"text-align: center;\">Resetting the data because an array is empty or you can't use localStorage!</h3>");
+        });
         resetModels()
     }
 
@@ -110,7 +112,7 @@
         })
 
         return result;
-    }
+    };
 
     $.mockjax({
         url: '/Part/DiscontinuedParts',
