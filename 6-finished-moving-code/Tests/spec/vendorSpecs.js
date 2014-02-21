@@ -20,7 +20,6 @@ describe("Vendor object", function () {
             beforeEach(function() {
                 // create some fake HTML
                 $(document.body).append('<div id="currentVendors"><a class="deleteVendorLink"></a></div>');
-
             });
 
             it("vendor should have a method to initialize the delete link", function() {
@@ -30,17 +29,42 @@ describe("Vendor object", function () {
             it("should handle a click on the #currentVendors delete link", function() {
                 // note - because of how .on binds to the parent controller, we have to detect the event there and
                 // not on the link itself
-                var $target = $('#currentVendors');
-
                 vendor.initializeDeleteLink();
 
-                expect($target).toHandle("click");
+                expect($('#currentVendors')).toHandle("click");
             });
         });
 
         describe("Step 5 - move the remaining functionality to the object", function() {
             beforeEach(function() {
                 // create some fake HTML
+                $(document.body).append('<div id="createNewVendor"></div>');
+            });
+
+            afterEach(function() {
+            });
+
+            it("vendor should have a bunch more functions", function() {
+                expect(vendor.initialize).toBeDefined();
+                expect(vendor.initializeCreateNewLink).toBeDefined();
+                expect(vendor.loadCurrentVendors).toBeDefined();
+            })
+
+            it("should handle a click on #createNewVendor", function() {
+                vendor.initializeCreateNewLink();
+
+                expect($('#createNewVendor')).toHandle('click');
+            });
+
+            it("should make an ajax call when loaded", function() {
+                // return a fake object with a done function
+                spyOn($, 'ajax').and.returnValue({
+                    done: function() {}
+                })
+
+                vendor.loadCurrentVendors();
+
+                expect($.ajax).toHaveBeenCalled();
             });
         });
     });
