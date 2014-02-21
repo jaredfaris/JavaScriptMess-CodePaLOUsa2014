@@ -30,6 +30,7 @@ describe("Part object", function () {
             beforeEach(function() {
                 // create some fake HTML
                 $(document.body).append('<div id="createNewPart"></div>');
+                $(document.body).append('<div id="toggleDiscontinuedParts"></div>');
             });
 
             afterEach(function() {
@@ -50,13 +51,31 @@ describe("Part object", function () {
                 expect($('#createNewPart')).toHandle('click');
             });
 
-            it("should make an ajax call when loaded", function() {
+            it("should handle a click on #toggleDiscontinuedParts", function() {
+                part.initializeToggleDiscontinuedLink();
+
+                expect($('#toggleDiscontinuedParts')).toHandle('click');
+
+            });
+
+            it("should make an ajax call when loadCurrentParts called", function() {
                 // return a fake object with a done function
                 spyOn($, 'ajax').and.returnValue({
                     done: function() {}
                 })
 
                 part.loadCurrentParts();
+
+                expect($.ajax).toHaveBeenCalled();
+            });
+
+            it("should make an ajax call when loadDiscontinuedParts called", function() {
+                // return a fake object with a done function
+                spyOn($, 'ajax').and.returnValue({
+                    done: function() {}
+                })
+
+                part.loadDiscontinuedParts();
 
                 expect($.ajax).toHaveBeenCalled();
             });

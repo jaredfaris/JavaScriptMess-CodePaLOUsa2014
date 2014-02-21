@@ -56,7 +56,7 @@ describe("Vendor object", function () {
                 expect($('#createNewVendor')).toHandle('click');
             });
 
-            it("should make an ajax call when loaded", function() {
+            it("should make an ajax call when loadCurrentVendors called", function() {
                 // return a fake object with a done function
                 spyOn($, 'ajax').and.returnValue({
                     done: function() {}
