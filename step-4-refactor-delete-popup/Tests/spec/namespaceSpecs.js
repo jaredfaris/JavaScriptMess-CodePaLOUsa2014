@@ -1,7 +1,7 @@
-describe("Namespaces", function () {
+describe("Step 2 - Namespaces", function () {
     it("should have receivingApp defined", function() {
         expect(window.receivingApp).toBeDefined();
-    })
+    });
 
     it("should have part defined", function () {
         expect(window.receivingApp.part).toBeDefined();
