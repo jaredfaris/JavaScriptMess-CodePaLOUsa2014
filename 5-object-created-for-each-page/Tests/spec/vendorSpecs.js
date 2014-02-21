@@ -7,7 +7,7 @@
 //    song = new Song();
 //  });
 
-describe("Step 4 - Create vendor object", function () {
+describe("Vendor object", function () {
 
     var vendor = null;
 
@@ -20,19 +20,21 @@ describe("Step 4 - Create vendor object", function () {
 
         });
 
-        it("vendor should have a method to initialize the delete link", function() {
-            expect(vendor.initializeDeleteLink).toBeDefined();
+        describe("Step 4 - delete link code moved to object", function () {
+            it("vendor should have a method to initialize the delete link", function() {
+                expect(vendor.initializeDeleteLink).toBeDefined();
+            });
+
+            it("should handle a click on the #currentVendors delete link", function() {
+                // note - because of how .on binds to the parent controller, we have to detect the event there and
+                // not on the link itself
+                var $target = $('#currentVendors');
+
+                vendor.initializeDeleteLink();
+
+                expect($target).toHandle("click");
+            });
         });
-
-        it("should handle a click on the #currentVendors delete link", function() {
-            // note - because of how .on binds to the parent controller, we have to detect the event there and
-            // not on the link itself
-            var $target = $('#currentVendors');
-
-            vendor.initializeDeleteLink();
-
-            expect($target).toHandle("click");
-        })
     });
 });
 
