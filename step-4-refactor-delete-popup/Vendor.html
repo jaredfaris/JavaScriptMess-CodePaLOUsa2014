@@ -33,6 +33,7 @@
     <script type="text/javascript" src="Scripts/server.js"></script>
 
     <script src="Scripts/receivingApp/namespace.js"></script>
+    <script src="Scripts/receivingApp/utility.js"></script>
 </head>
 <body style="">
 <div class="container">
@@ -187,33 +188,22 @@
                         });
 
                 // javascript called via an event
-                $('#currentVendors').on('click', '.deleteVendorLink', function () {
+                $('#currentVendors').on('click', '.deleteVendorLink', function (event) {
+                    event.preventDefault();
+
                     var vendorId = $(this).parents('tr').data('vendorid');
 
-                    $("#dialog-confirm").dialog({
-                        resizable: false,
-                        height: 200,
-                        modal: true,
-                        buttons: {
-                            "Delete this item": function () {
-                                $(this).dialog("close");
-                                $.ajax({
-                                    type: "POST",
-                                    url: "/Vendor/Delete",
-                                    data: { Id: vendorId },
-                                    context: this,
-                                    title: "Delete This?"
-                                }).done(function () {
-                                            $('#vendorsList').find('tr[data-vendorid="' + vendorId + '"]').remove();
-                                        });
-                            },
-                            Cancel: function () {
-                                $(this).dialog("close");
-                            }
-                        }
-                    });
-
-                    return false;
+                    var deleteFunction = function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "/Vendor/Delete",
+                            data: { Id: vendorId },
+                            context: this,
+                        }).done(function () {
+                                    $('#vendorsList').find('tr[data-vendorid="' + vendorId + '"]').remove();
+                                });
+                    };
+                    window.receivingApp.utility.deletePopup.open("Delete this vendor?", deleteFunction);
                 });
             </script>
 
