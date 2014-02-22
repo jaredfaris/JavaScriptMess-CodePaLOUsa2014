@@ -6,6 +6,12 @@ window.receivingApp.part = function () {
 
             var partId = $(this).parents('tr').data('partid');
 
+            var updateGrids = function() {
+                currentParts.loadGrid();
+                discontinuedParts.loadGrid();
+            };
+            updateGrids = _.bind(updateGrids, this);
+
             var deleteFunction = function () {
                 $.ajax({
                     type: "POST",
@@ -13,19 +19,10 @@ window.receivingApp.part = function () {
                     data: { Id: partId },
                     context: this
                 }).done(function () {
-                        $('#partsList').find('tr[data-partid="' + partId + '"]').remove();
-                    });
-            }
+                    updateGrids();
+                });
+            };
             window.receivingApp.utility.deletePopup.open("Delete this vendor?", deleteFunction);
-        });
-    };
-
-    // initializes the create new link to open a popup window
-    var popup = new window.receivingApp.part.createPartPopup();
-    var initializeCreateNewLink = function () {
-        $('#createNewPart').on('click', function (event) {
-            event.preventDefault();
-            popup.openDialog();
         });
     };
 
@@ -60,6 +57,15 @@ window.receivingApp.part = function () {
         discontinuedParts.loadGrid();
     };
 
+    // initializes the create new link to open a popup window
+    var popup = new window.receivingApp.part.createPartPopup(currentParts);
+    var initializeCreateNewLink = function () {
+        $('#createNewPart').on('click', function (event) {
+            event.preventDefault();
+            popup.openDialog();
+        });
+    };
+
     // initializes everything. called once at page load
     var initialize = function () {
         this.initializeDeleteLink();
@@ -79,9 +85,17 @@ window.receivingApp.part = function () {
 
 };
 
-window.receivingApp.part.createPartPopup = function() {
+window.receivingApp.part.createPartPopup = function(currentPartGrid) {
     this.title = "New Part";
     this.formId = "createNewPartForm";
+
+    // we want to force the context to be the grid that was passed in when we call update
+    // otherwise we'll be referring to the dialog window
+    var updateGrid = function() {
+        currentPartGrid.loadGrid()
+    };
+    updateGrid = _.bind(updateGrid, this);
+
     this.createFunction = function() {
         var data = $(this).serialize();
         $.ajax({
@@ -91,17 +105,11 @@ window.receivingApp.part.createPartPopup = function() {
             context: this,
             dataType: "json"
         }).done(function (result) {
-                // Look at all this lovely markup
-                $('#partsList tbody').append('' +
-                    '<tr data-partid="' + result.Id + '"><input type="hidden" name="id" value="' + result.Id + '">' +
-                    '<td>' + result.Name + '</td>' +
-                    '<td>' + result.Weight + '</td>' +
-                    '<td><a class="deletePartLink" href="#">Delete</a>' +
-                    '</form></td>');
+            updateGrid();
 
-                $(this).dialog("close");
-                $(this).find('input').val('');
-            });
+            $(this).dialog("close");
+            $(this).find('input').val('');
+        });
     }
 };
 window.receivingApp.part.createPartPopup.prototype = new window.receivingApp.utility.createObjectPopup();

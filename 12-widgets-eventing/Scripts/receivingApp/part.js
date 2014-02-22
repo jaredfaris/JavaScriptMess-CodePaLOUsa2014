@@ -39,26 +39,6 @@ window.receivingApp.part = function () {
         });
     };
 
-    // loads/reloads the discontinued parts grid
-    var loadDiscontinuedParts = function () {
-        $.ajax({
-            url: '/Part/DiscontinuedParts',
-            type: 'GET',
-            context: this,
-            dataType: "json"
-        }).done(function (result) {
-                var markup = '<table class="table"><tr><th>Name</th><th>Weight</th><th></th></tr>';
-
-                _.each(result, function (item) {
-                    markup += "<tr><td>" + item.Name + "</td><td>" + item.Weight + "</td><td></td></tr>";
-                });
-
-                markup += "</table>";
-
-                $('#discontinuedParts').html(markup);
-            });
-    };
-
     // loads/reloads the current parts grid
     var currentParts = new window.receivingApp.part.currentPartList();
     var loadCurrentParts = function () {
@@ -67,6 +47,9 @@ window.receivingApp.part = function () {
 
     // loads/reloads the discontinued parts grid
     var discontinuedParts = new window.receivingApp.part.discontinuedPartList();
+    var loadDiscontinuedParts = function () {
+        discontinuedParts.loadGrid();
+    }
 
     // initializes the create new link to open a popup window
     var popup = new window.receivingApp.part.createPartPopup(currentParts);

@@ -106,5 +106,81 @@ describe("Part object", function () {
             });
 
         });
+
+        describe("Step 9 - extract the part list code to it's own object", function() {
+            it("Add a currentPartList function to receivingApp.part", function() {
+                expect(receivingApp.part.currentPartList).toBeDefined();
+            });
+
+            it("Add a discontinuedPartList function to receivingApp.part", function() {
+                expect(receivingApp.part.discontinuedPartList).toBeDefined();
+            });
+
+            var listObject = null;
+
+            beforeEach(function() {
+                listObject = new receivingApp.part.currentPartList();
+            });
+
+            it("Reveal a loadGrid function from the currentPartList", function() {
+                expect(listObject.loadGrid).toBeDefined();
+            });
+
+            it("Make the loadGrid function make an AJAX call to get grid data", function() {
+                spyOn($, 'ajax').and.returnValue({
+                    done: function() {}
+                })
+
+                part.loadCurrentParts();
+
+                expect($.ajax).toHaveBeenCalled();
+            });
+
+            it("Make part.initialize() call currentParts.loadGrid()", function() {
+                // making a fake currentPartList
+                var loadGridSpy = jasmine.createSpy("loadGrid");
+                receivingApp.part.currentPartList = function() {
+                    this.loadGrid = loadGridSpy;
+                };
+
+                // reinitialize the part so it gets the fake
+                var part = new receivingApp.part();
+
+                part.initialize();
+
+                expect(loadGridSpy).toHaveBeenCalled();
+            })
+
+            it("Reveal a loadGrid function from the currentPartList", function() {
+                expect(listObject.loadGrid).toBeDefined();
+            });
+
+            it("Make the loadGrid function make an AJAX call to get discontinued grid data", function() {
+                spyOn($, 'ajax').and.returnValue({
+                    done: function() {}
+                })
+
+                part.loadDiscontinuedParts();
+
+                expect($.ajax).toHaveBeenCalled();
+            });
+
+            it("Make sure part.initialize() does not call discontinuedParts.loadGrid()", function() {
+                // making a fake currentPartList
+                var loadGridSpy = jasmine.createSpy("loadGrid");
+                receivingApp.part.discontinuedPartList = function() {
+                    this.loadGrid = loadGridSpy;
+                };
+
+                // reinitialize the part so it gets the fake
+                var part = new receivingApp.part();
+
+                part.initialize();
+
+                expect(loadGridSpy).not.toHaveBeenCalled();
+            })
+
+        });
+
     });
 });

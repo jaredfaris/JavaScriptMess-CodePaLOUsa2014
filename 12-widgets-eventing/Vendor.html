@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Vendors - My Fake Application</title>
+
+    <link href="Content/bootstrap.css" rel="stylesheet">
+    <link href="Content/offcanvas.css" rel="stylesheet">
+    <link href="Content/site.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.core.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.resizable.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.selectable.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.accordion.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.autocomplete.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.button.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.dialog.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.slider.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.tabs.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.datepicker.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.progressbar.css" rel="stylesheet">
+    <link href="Content/themes/base/jquery.ui.theme.css" rel="stylesheet">
+
+    <script type="text/javascript" src="Scripts/modernizr-2.6.2.js"></script>
+    <script type="text/javascript" src="Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="Scripts/jquery-ui-1.10.3.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.mockjax.js"></script>
+    <script type="text/javascript" src="Scripts/bootstrap.js"></script>
+    <script type="text/javascript" src="Scripts/offcanvas.js"></script>
+    <script type="text/javascript" src="Scripts/underscore-min.js"></script>
+    <script type="text/javascript" src="Scripts/server.js"></script>
+
+    <script src="Scripts/amplify.js"></script>
+
+    <script src="Scripts/receivingApp/namespace.js"></script>
+    <script src="Scripts/receivingApp/utility.js"></script>
+    <script src="Scripts/receivingApp/vendor.js"></script>
+</head>
+<body style="">
+<div class="container">
+    <div class="page-header">
+        <h1>AcmeCo Receiving</h1>
+
+        <p class="lead">We get stuff.</p>
+    </div>
+
+    <div class="row row-offcanvas row-offcanvas-right">
+
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+            <div class="list-group">
+
+                <a href="./Vendor.html" class="list-group-item active">Vendors</a>
+
+                <a href="./Part.html" class="list-group-item">Parts</a>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-9">
+
+
+            <h2>Index</h2>
+
+            <p>
+                <a href="#" id="createNewVendor">Create New</a>
+            </p>
+
+            <div id="currentVendors"></div>
+
+            <div style="display: none;">
+                <div id="dialog-confirm" title="Delete this item?">
+                    <p>Delete this item?</p>
+                </div>
+            </div>
+
+            <div class="hidden">
+                <form id="createNewVendorForm">
+                    <div class="form-horizontal" id="createNewFormContainer">
+                        <hr>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="Name">Name</label>
+
+                            <div class="col-md-5">
+                                <input class="text-box single-line" id="Name" name="Name" type="text" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="Address1">Address1</label>
+
+                            <div class="col-md-5">
+                                <input class="text-box single-line" id="Address1" name="Address1" type="text" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="City">City</label>
+
+                            <div class="col-md-5">
+                                <input class="text-box single-line" id="City" name="City" type="text" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="State">State</label>
+
+                            <div class="col-md-5">
+                                <input class="text-box single-line" id="State" name="State" type="text" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="Zip">Zip</label>
+
+                            <div class="col-md-5">
+                                <input class="text-box single-line" id="Zip" name="Zip" type="text" value="">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <script>
+                var vendorObject = new receivingApp.vendor();
+                vendorObject.initialize();
+            </script>
+
+</body>
+</html>
