@@ -21,47 +21,10 @@ window.receivingApp.vendor = function() {
     };
 
     // initializes the create new link to open a popup window
-    var initializeCreateNewLink = function () {
-        $('#createNewVendor').on('click', function () {
-            $('#createNewVendorForm').dialog({
-                resizable: false,
-                width: 500,
-                modal: true,
-                title: "New Vendor",
-                buttons: {
-                    "Create": function () {
-                        var data = $('#createNewVendorForm').serialize();
-                        $.ajax({
-                            type: 'POST',
-                            url: '/Vendor/Create',
-                            data: data,
-                            context: this,
-                            title: "New Vendor",
-                            dataType: "json"
-                        }).done(function (result) {
-                                // Look at all this lovely markup
-                                $('#vendorsList tbody').append('' +
-                                    '<tr data-vendorid="' + result.Id + '"><input type="hidden" name="id" value="' + result.Id + '">' +
-                                    '<td>' + result.Name + '</td>' +
-                                    '<td>' + result.Address1 + '</td>' +
-                                    '<td>' + result.City + '</td>' +
-                                    '<td>' + result.State + '</td>' +
-                                    '<td>' + result.Zip + '</td>' +
-                                    '<td><a class="deleteVendorLink" href="#">Delete</a>' +
-                                    '</form></td>');
-
-                                $(this).dialog("close");
-                                $(this).find('input').val('');
-                            });
-
-                    },
-                    Cancel: function () {
-                        $(this).dialog("close");
-                        $(this).first('input').val('');
-                    }
-                }
-            });
-        });
+    var popup = new window.receivingApp.vendor.createVendorPopup();
+    var initializeCreateNewLink = function (event) {
+        event.preventDefault();
+        popup.openDialog();
     };
 
     // loads/reloads the current vendors grid
