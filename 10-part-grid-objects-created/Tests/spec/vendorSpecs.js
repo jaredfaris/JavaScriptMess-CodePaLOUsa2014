@@ -4,7 +4,7 @@ describe("Vendor object", function () {
 
     describe("vendor function called", function() {
         beforeEach(function() {
-            vendor = window.receivingApp.vendor();
+            vendor = receivingApp.vendor();
         });
 
         describe("Step 4 - delete link code moved to object", function () {
@@ -109,20 +109,30 @@ describe("Vendor object", function () {
                 expect($.ajax).toHaveBeenCalled();
             });
 
-            it("Make vendor.initialize() call currentVendors.loadGrid()", function() {
+            var currentVendorListReference = receivingApp.vendor.currentVendorList;
+            var loadGridSpy = null;
+            beforeEach(function() {
                 // making a fake currentVendorList
-                var loadGridSpy = jasmine.createSpy("loadGrid");
+                loadGridSpy = jasmine.createSpy("loadGrid");
+
                 receivingApp.vendor.currentVendorList = function() {
                     this.loadGrid = loadGridSpy;
                 };
+            });
+
+            it("Make vendor.initialize() call currentVendors.loadGrid()", function() {
 
                 // reinitialize vendor so it gets the fake
-                var vendor = new receivingApp.vendor();
+                var newVendor = new receivingApp.vendor();
 
-                vendor.initialize();
+                newVendor.initialize();
 
                 expect(loadGridSpy).toHaveBeenCalled();
             })
+
+            afterEach(function() {
+               receivingApp.vendor.currentVendorList = currentVendorListReference;
+            });
         });
     });
 });
