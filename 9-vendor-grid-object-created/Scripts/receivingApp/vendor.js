@@ -23,8 +23,10 @@ window.receivingApp.vendor = function() {
     // initializes the create new link to open a popup window
     var popup = new window.receivingApp.vendor.createVendorPopup();
     var initializeCreateNewLink = function (event) {
-        event.preventDefault();
-        popup.openDialog();
+        $('#createNewVendor').on('click', function (event) {
+            event.preventDefault();
+            popup.openDialog();
+        });
     };
 
     // loads/reloads the current vendors grid

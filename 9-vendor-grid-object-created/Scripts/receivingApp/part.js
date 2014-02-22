@@ -21,7 +21,7 @@ window.receivingApp.part = function () {
     };
 
     // initializes the create new link to open a popup window
-    var popup = new window.receivingApp.part.createVendorPopup();
+    var popup = new window.receivingApp.part.createPartPopup();
     var initializeCreateNewLink = function () {
         $('#createNewPart').on('click', function (event) {
             event.preventDefault();
