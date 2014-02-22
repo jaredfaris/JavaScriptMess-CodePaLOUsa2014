@@ -1,10 +1,10 @@
 describe("Step 3 - Delete Popup", function () {
 
-    it("should be defined", function () {
+    it("Create a deletePopup object inside of utility", function () {
         expect(window.receivingApp.utility.deletePopup).toBeDefined();
     });
 
-    it("should have an open method", function () {
+    it("Create an open function inside of deletePopup", function () {
         expect(window.receivingApp.utility.deletePopup.open).toBeDefined();
 
     });
@@ -20,7 +20,7 @@ describe("Step 3 - Delete Popup", function () {
         });
     });
 
-    it("should call jQueryUI dialog when open called", function() {
+    it("Make sure that jQuery UI's dialog gets called when the deletePopup opens", function() {
         window.receivingApp.utility.deletePopup.open("test", null);
 
         expect(mockDialog).toHaveBeenCalled();

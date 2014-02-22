@@ -1,17 +1,17 @@
 describe("Step 2 - Namespaces", function () {
-    it("should have receivingApp defined", function() {
+    it("Create the base receivingApp 'namespace' object", function() {
         expect(window.receivingApp).toBeDefined();
     });
 
-    it("should have part defined", function () {
+    it("Create the part object inside of receivingApp", function () {
         expect(window.receivingApp.part).toBeDefined();
     });
 
-    it("should have vendor defined", function () {
+    it("Create the vendor object inside of receivingApp", function () {
         expect(window.receivingApp.vendor).toBeDefined();
     });
 
-    it("should have utility defined", function () {
+    it("Create the utility object inside of receivingApp", function () {
         expect(window.receivingApp.utility).toBeDefined();
     });
 });
